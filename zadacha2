@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    int N;
+    int k = 32;
+    int m = 0;
+    cin >> N;
+
+    while (k > 0) {
+        cout << ((N >> (k - 1)) & 1);
+        k--;
+
+    }
+    cout << endl;
+    k = 32;
+    while (k > 0) {
+        m = m << 1;
+        m = (m | (N & 1));
+        N = N >> 1;
+        k--;
+    }
+    cout << m << endl;
+    k = 32;
+    while (k > 0) {
+        cout << ((m >> (k - 1)) & 1);
+        k--;
+    }
+}
