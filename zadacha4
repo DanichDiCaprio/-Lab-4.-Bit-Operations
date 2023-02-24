@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <bitset>
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+void bitsetZero(int nm);
+int bitsetGet(int idx);
+void bitsetSet(int idx, int newval);
+int bitsetAny(int left, int right);
+bitset<32>* arr = new bitset<32>;
+
+void bitsetZero(int nm) {
+    arr = new bitset<32>[nm / 16 + 1];
+}
+
+int bitsetGet(int idx) {
+    int more = idx / 32;
+    if (more > 0) {
+        idx -= more * 32;
+    }
+    return arr[more].test(idx);
+}
+
+void bitsetSet(int idx, int newval) {
+    int more = idx / 32;
+    if (more != 0) {
+        idx -= more * 32;
+    }
+    arr[more].set(idx, newval);
+}
+
+int bitsetAny(int left, int right) {
+    int mr = right / 32, ml = left / 32;
+    right -= mr * 32; left -= ml * 32;
+    for (int i = ml; i <= mr; i++) {
+        int j = 0, n = 32;
+        if (i == mr) n = right;
+        if (i == ml) j = left;
+        while (j < n) {
+            if (arr[i] == 0) {
+                break;
+            }
+            if (arr[i].test(j)) {
+                return 1;
+            }
+            j++;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    int N;
+    cin >> N;
+    for (int i = 0; i < N; i++) {
+        int v1, v2, t;
+        cin >> t >> v1;
+        switch (t) {
+        case 0:
+            delete[] arr;
+            bitsetZero(v1);
+            break;
+
+        case 1:
+            cout << bitsetGet(v1) << endl;
+            break;
+
+        case 2:
+            int newval;
+            cin >> newval;
+            bitsetSet(v1, newval);
+            break;
+
+        case 3:
+            cin >> v2;
+            if (bitsetAny(v1, v2)) {
+                cout << "some" << '\n';
+            }
+            else {
+                cout << "none" << '\n';
+            }
+            break;
+        }
+    }
+}
