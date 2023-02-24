@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int s = 0;
+int* In = new int[200000];
+int* Out = new int[200000];
+
+bool osn(int in1) {
+    for (int x = 2; x < in1; x++) {
+        if (in1 % x == 0) return 0;
+    }
+
+    return 1;
+}
+
+void d() {
+    for (int x = 16; x > 0; x = x - 1) {
+        for (int i = 0; i < s; i++) {
+            if (!In) {
+                continue;
+            }
+
+            if (In[i] % int(pow(2, x)) == 0 && osn(In[i] % int(pow(2, x)))) {
+                Out[i] = int(pow(2, x));
+                In[i] = -1;
+            }
+        }
+    }
+}
+
+int main() {
+
+    cin >> s;
+
+    for (int i = 0; i < s; i++) {
+        cin >> In[i];
+    }
+
+    d();
+    for (int i = 0; i <s; i++) {
+        cout << Out[i];
+        cout<<endl;
+    }
+}
