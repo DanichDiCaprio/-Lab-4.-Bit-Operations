@@ -1,0 +1,46 @@
+#include <iostream>
+
+int main()
+{
+	int *a, n = 0, k = 0, kolvo = 0;
+	bool poloz = true;
+	scanf_s("%d", &n);
+	if (n < 0)
+		poloz = false;
+	a = (int*)malloc(32 * sizeof(int));
+	n = abs(n);
+	for (int i = 0; i < 32; i++)
+		a[i] = 0;
+	while (n >= 2)
+	{
+		k++;
+		a[32 - k] = n % 2;
+		n = n / 2;
+	}
+	k++;
+	a[32 - k] = n;
+	if (!poloz)
+	{
+		for (int i = 0; i < 32; i++)
+		{
+			if (a[i] == 0)
+				a[i] = 1;
+			else
+				a[i] = 0;
+		}
+		a[31] = 1;
+	}
+	int p = 0;
+	for (int i = 0; i < 32; i++)
+	{
+		if (a[i] == 1)
+			p++;
+		if ((a[i] == 0)||(i == 31))
+		{
+			if (p > kolvo)
+				kolvo = p;
+			p = 0;
+		}
+	}
+	printf("%d", kolvo);
+}
